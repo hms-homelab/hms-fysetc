@@ -1,6 +1,6 @@
 # hms-fysetc
 
-> **EXPERIMENTAL** -- This firmware has not been tested on hardware yet. Use at your own risk. Contributions and test reports welcome.
+> **EXPERIMENTAL** -- This project is in early development. Contributions welcome.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![ESP-IDF](https://img.shields.io/badge/ESP--IDF-v5.3-blue.svg?logo=espressif)](https://docs.espressif.com/projects/esp-idf/)
