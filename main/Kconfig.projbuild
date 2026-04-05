@@ -1,0 +1,58 @@
+menu "HMS-FYSETC Configuration"
+
+    menu "WiFi Configuration"
+        config FYSETC_WIFI_SSID
+            string "WiFi SSID"
+            default "your_wifi_ssid"
+            help
+                WiFi network name to connect to.
+
+        config FYSETC_WIFI_PASSWORD
+            string "WiFi Password"
+            default "your_wifi_password"
+            help
+                WiFi network password.
+
+        config FYSETC_WIFI_MAX_RETRY
+            int "WiFi max connection retries"
+            default 10
+            help
+                Maximum number of WiFi connection retries before giving up.
+    endmenu
+
+    menu "SD Bus"
+        config FYSETC_PCNT_SAMPLE_MS
+            int "PCNT sample interval (ms)"
+            default 100
+            help
+                Sample the PCNT counter every N milliseconds to monitor
+                host activity on the SD bus.
+
+        config FYSETC_PCNT_GLITCH_FILTER
+            int "PCNT glitch filter threshold"
+            default 10
+            help
+                Ignore pulses shorter than ~100ns (filter value 10).
+    endmenu
+
+    menu "Device Identity"
+        config FYSETC_DEVICE_NAME
+            string "Device name"
+            default "hms-fysetc"
+            help
+                Human-readable device name.
+
+        config FYSETC_FIRMWARE_VERSION
+            string "Firmware version"
+            default "1.0.0"
+            help
+                Firmware version string.
+
+        config FYSETC_LOG_TAG
+            string "Log tag"
+            default "FYSETC"
+            help
+                ESP_LOG tag prefix for all log messages.
+    endmenu
+
+endmenu

@@ -1,0 +1,20 @@
+idf_component_register(
+    SRCS
+        "main.c"
+        "sd_manager.c"
+        "wifi_manager.c"
+        "web_server.c"
+        "traffic_monitor.c"
+        "file_server.c"
+    INCLUDE_DIRS "."
+    REQUIRES
+        nvs_flash
+        driver
+        esp_timer
+        fatfs
+        sdmmc
+        esp_http_server
+        esp_wifi
+        esp_event
+        esp_netif
+)
