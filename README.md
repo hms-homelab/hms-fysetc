@@ -6,7 +6,7 @@
 [![ESP-IDF](https://img.shields.io/badge/ESP--IDF-v5.3-blue.svg?logo=espressif)](https://docs.espressif.com/projects/esp-idf/)
 [![Status: Experimental](https://img.shields.io/badge/Status-Experimental-orange.svg)]()
 
-Turn a [$10 FYSETC SD WiFi Pro](https://www.fysetc.com/products/fysetc-sd-wifi-pro-esp32-sdio-sd-tf-card) into a WiFi file server for any SD card. Serves files over HTTP on your home network -- no cloud, no subscription.
+Turn a [FYSETC SD WiFi Pro](https://www.fysetc.com/products/fysetc-sd-wifi-pro-esp32-sdio-sd-tf-card) into a WiFi file server for any SD card. Serves files over HTTP on your home network -- no cloud, no subscription.
 
 The FYSETC SD WiFi Pro is shaped like an SD card with an ESP32 inside. Insert your micro SD into the FYSETC board, plug it into any device's SD slot, and read files over WiFi. The host device and ESP32 share the bus safely -- the SD is only mounted read-only during HTTP requests.
 
@@ -108,7 +108,7 @@ Navigate to `http://<IP>/` in a browser to access the built-in dashboard:
 
 ## Hardware
 
-- **Board:** [FYSETC SD WiFi Pro](https://www.fysetc.com/products/fysetc-sd-wifi-pro-esp32-sdio-sd-tf-card) (~$10)
+- **Board:** [FYSETC SD WiFi Pro](https://www.fysetc.com/products/fysetc-sd-wifi-pro-esp32-sdio-sd-tf-card)
 - **SoC:** ESP32-PICO-D4, 4MB flash
 - **SD interface:** SDMMC 4-bit (shared with host via analog MUX)
 - **Bus switch:** GPIO 26 controls MUX (HIGH = host, LOW = ESP32)
