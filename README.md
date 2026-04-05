@@ -59,10 +59,12 @@ idf.py set-target esp32
 idf.py menuconfig
 ```
 
-Navigate to **HMS-FYSETC Configuration** and set:
+Navigate to **HMS-FYSETC Configuration**. You can optionally set:
 
-- **WiFi** -- your network SSID and password
+- **WiFi** -- hardcode SSID and password (compile-time defaults)
 - **Device Identity** -- name and version (optional)
+
+If you skip WiFi configuration, the device starts a **captive portal** on first boot where you enter credentials from your phone.
 
 ### 3. Build and Flash
 
@@ -73,7 +75,23 @@ idf.py -p /dev/ttyUSB0 flash monitor
 
 On macOS the port is typically `/dev/cu.usbserial-*`.
 
-### 4. Find the IP
+### 4. Connect to WiFi
+
+The device tries WiFi credentials in this order:
+
+1. **NVS** -- credentials saved via the captive portal (persists across reboots)
+2. **Kconfig** -- compile-time defaults from `idf.py menuconfig`
+3. **Captive Portal** -- if neither exists, the device creates an open AP named `FYSETC-Setup-XXXX`
+
+If using the captive portal:
+- Connect your phone to the `FYSETC-Setup-XXXX` WiFi network
+- A setup page opens automatically (or navigate to `http://192.168.4.1`)
+- Select your WiFi network from the scan list and enter the password
+- The device saves credentials to NVS and reboots
+
+If NVS credentials fail to connect, they are automatically cleared and the device reboots into the captive portal.
+
+### 5. Find the IP
 
 The device prints its IP on the serial console at boot:
 
@@ -83,7 +101,7 @@ I (1234) wifi: Connected, IP: 192.168.x.x
 
 Set a DHCP reservation in your router so the IP doesn't change.
 
-### 5. Test
+### 6. Test
 
 ```bash
 # List root directory
@@ -98,6 +116,16 @@ curl "http://<IP>/download?file=DATALOG%5Cfile.dat" -o file.dat
 # Check status
 curl "http://<IP>/api/status"
 ```
+
+## WiFi Credential Priority
+
+| Priority | Source | How to set |
+|----------|--------|------------|
+| 1 | NVS (runtime) | Captive portal web form |
+| 2 | Kconfig (compile-time) | `idf.py menuconfig` |
+| 3 | Captive portal | Automatic if no credentials found |
+
+NVS credentials override Kconfig. To force the captive portal, erase NVS with `idf.py erase-flash` or flash with default Kconfig (leave SSID as `your_wifi_ssid`).
 
 ## Web UI
 
@@ -118,14 +146,16 @@ Navigate to `http://<IP>/` in a browser to access the built-in dashboard:
 
 ```
 main/
-  main.c              # Entry point
+  main.c              # Entry point (NVS -> Kconfig -> captive portal flow)
   config.h            # Kconfig -> #define mappings
   pins_config.h       # GPIO assignments
   file_server.c/h     # HTTP file endpoints (/dir, /download, /api/status)
   sd_manager.c/h      # SD bus MUX control, mount/unmount
-  wifi_manager.c/h    # WiFi station mode
+  wifi_manager.c/h    # WiFi station mode (compile-time + dynamic)
   web_server.c/h      # HTTP server, log capture, dashboard UI
   traffic_monitor.c/h # PCNT-based bus activity monitor (passive)
+  nvs_store.c/h       # NVS storage for WiFi credentials
+  captive_portal.c/h  # AP mode WiFi setup with DNS hijack
 ```
 
 ## Acknowledgments

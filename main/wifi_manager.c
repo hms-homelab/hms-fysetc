@@ -94,6 +94,47 @@ bool wifi_manager_is_connected(void)
     return s_connected;
 }
 
+bool wifi_manager_connect_dynamic(const char *ssid, const char *pass)
+{
+    s_wifi_event_group = xEventGroupCreate();
+
+    esp_netif_init();
+    esp_event_loop_create_default();
+    esp_netif_create_default_wifi_sta();
+
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    esp_wifi_init(&cfg);
+
+    esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID,
+                                        &event_handler, NULL, NULL);
+    esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP,
+                                        &event_handler, NULL, NULL);
+
+    wifi_config_t wifi_config = {};
+    strncpy((char *)wifi_config.sta.ssid, ssid, sizeof(wifi_config.sta.ssid));
+    strncpy((char *)wifi_config.sta.password, pass, sizeof(wifi_config.sta.password));
+    wifi_config.sta.threshold.authmode = WIFI_AUTH_WPA2_PSK;
+
+    esp_wifi_set_mode(WIFI_MODE_STA);
+    esp_wifi_set_config(WIFI_IF_STA, &wifi_config);
+
+    s_retry_count = 0;
+    esp_wifi_start();
+
+    EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
+                                            WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
+                                            pdFALSE, pdFALSE,
+                                            pdMS_TO_TICKS(30000));
+
+    if (bits & WIFI_CONNECTED_BIT) {
+        esp_wifi_set_ps(WIFI_PS_NONE);
+        return true;
+    }
+
+    ESP_LOGE(TAG, "Failed to connect to %s (dynamic)", ssid);
+    return false;
+}
+
 void wifi_manager_disconnect(void)
 {
     esp_wifi_disconnect();

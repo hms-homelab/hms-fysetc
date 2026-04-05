@@ -6,6 +6,8 @@ idf_component_register(
         "web_server.c"
         "traffic_monitor.c"
         "file_server.c"
+        "nvs_store.c"
+        "captive_portal.c"
     INCLUDE_DIRS "."
     REQUIRES
         nvs_flash
@@ -17,4 +19,5 @@ idf_component_register(
         esp_wifi
         esp_event
         esp_netif
+        lwip
 )
