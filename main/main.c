@@ -39,9 +39,8 @@ static void init_sntp(void)
 
 void app_main(void)
 {
-    ESP_LOGI(TAG, "=== hms-fysetc v%s built %s %s ===",
+    ESP_LOGI(TAG, "=== hms-fysetc v%s (build %s %s) ===",
              FIRMWARE_VERSION, __DATE__, __TIME__);
-    ESP_LOGI(TAG, "HTTP file server for FYSETC SD WiFi Pro");
 
     // Release SD bus to host device FIRST, before anything else.
     sd_manager_init();

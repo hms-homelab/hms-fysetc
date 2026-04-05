@@ -1,5 +1,6 @@
 #pragma once
 #include "sdkconfig.h"
+#include "version.h"
 
 // =============================================================================
 // hms-fysetc -- Configuration (from Kconfig / idf.py menuconfig)
@@ -18,4 +19,4 @@
 // -- Device Identity --
 #define LOG_TAG                 CONFIG_FYSETC_LOG_TAG
 #define DEVICE_NAME             CONFIG_FYSETC_DEVICE_NAME
-#define FIRMWARE_VERSION        CONFIG_FYSETC_FIRMWARE_VERSION
+// FIRMWARE_VERSION comes from version.h

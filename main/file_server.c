@@ -1,4 +1,5 @@
 #include "file_server.h"
+#include "config.h"
 #include "sd_manager.h"
 #include "wifi_manager.h"
 #include "esp_log.h"
@@ -230,10 +231,13 @@ static esp_err_t handle_api_status(httpd_req_t *req)
 
     char buf[256];
     snprintf(buf, sizeof(buf),
-             "{\"state\":\"FILE_SERVER\",\"wifi\":%s,"
-             "\"uptime\":\"%dh%02dm%02ds\"}",
+             "{\"version\":\"" FIRMWARE_VERSION "\","
+             "\"state\":\"FILE_SERVER\",\"wifi\":%s,"
+             "\"uptime\":\"%dh%02dm%02ds\","
+             "\"build\":\"%s %s\"}",
              wifi_manager_is_connected() ? "true" : "false",
-             hrs, mins, secs);
+             hrs, mins, secs,
+             __DATE__, __TIME__);
 
     httpd_resp_set_type(req, "application/json");
     return httpd_resp_sendstr(req, buf);

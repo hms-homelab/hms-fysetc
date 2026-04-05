@@ -40,13 +40,8 @@ menu "HMS-FYSETC Configuration"
             string "Device name"
             default "hms-fysetc"
             help
-                Human-readable device name.
-
-        config FYSETC_FIRMWARE_VERSION
-            string "Firmware version"
-            default "1.0.0"
-            help
-                Firmware version string.
+                Human-readable device name. Also used in captive portal
+                AP SSID (last 4 chars appended to FYSETC-Setup-).
 
         config FYSETC_LOG_TAG
             string "Log tag"
