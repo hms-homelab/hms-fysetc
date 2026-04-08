@@ -20,4 +20,5 @@ idf_component_register(
         esp_event
         esp_netif
         lwip
+        mdns
 )
