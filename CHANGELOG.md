@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 Version format: `YYYY.MINOR.PATCH` where YYYY is the release year, MINOR is the feature increment, and PATCH is the bug fix increment.
 
+## [2026.1.1] - 2026-05-03
+
+### Fixed
+- **Long filename (LFN) support**: enabled `CONFIG_FATFS_LFN_HEAP` and `CONFIG_FATFS_MAX_LFN=255` — without this, CPAP files with long names were served with mangled 8.3 names, breaking downloads
+
 ## [2026.1.0] - 2026-04-05
 
 ### Added
